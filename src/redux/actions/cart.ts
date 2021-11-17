@@ -1,43 +1,20 @@
-import { Dispatch } from 'redux';
-import axios from 'axios';
+import { Product } from "../reducers/products";
 
-const api = 'https://fakestoreapi.com';
-
-export const MODIFY_CART_START = "MODIFY_CART_START";
-export const MODIFY_CART_SUCCESS = "MODIFY_CART_SUCCESS";
-export const MODIFY_CART_FAIL = "MODIFY_CART_FAIL";
+export const ADD_TO_CART = "ADD_TO_CART";
 
 /**
- * Dispatches async thunk actions to modify cart, and handle loading, passing
- * remove will remove the product id passed if true
+ * Dispatches async thunk actions to add to cart
  * 
- * @param productId - Identifier of the product to modify
- * @param remove - (Optional) If passed value is true, will remove from cart, defaults to adding to cart
+ * @param product - Product to add to cart
  */
-export const modifyCart = (productId: number, remove?: boolean) => (dispatch: Dispatch) => {
-  const payload = {
-    userId: "5",
-    date: new Date().toLocaleDateString(),
-    products: [{ productId, quantity: remove ? 0 : 1 }]
-  }
+export const addToCart = (product: Product) => ({
+  type: ADD_TO_CART,
+  payload: product
+})
 
-  dispatch({ type: MODIFY_CART_START });
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART"
 
-  axios.post(`${api}/carts`, payload)
-    .then(res => {
-      dispatch({ 
-        type: MODIFY_CART_SUCCESS,
-        payload: {
-          data: res.data,
-          productId,
-          remove,
-        }
-      });
-    })
-    .catch(err => {
-      dispatch({ 
-        type: MODIFY_CART_FAIL,
-        payload: err
-      });
-    })
-}
+export const removeFromCart = (product: Product) => ({
+  type: REMOVE_FROM_CART,
+  payload: product
+})

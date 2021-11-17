@@ -1,52 +1,61 @@
 import { AnyAction } from 'redux';
 
 import {
-  MODIFY_CART_START,
-  MODIFY_CART_SUCCESS,
-  MODIFY_CART_FAIL
+  ADD_TO_CART,
+  REMOVE_FROM_CART
 } from '../actions/cart';
 
+export interface CartItem {
+  image: string,
+  title: string,
+  price: number,
+  quantity: number,
+}
+
 export interface CartState {
-  cart: Record<string, number>,
-  loadingCart: boolean,
+  cart: Record<string, CartItem>,
 }
 
 const initialState: CartState = {
   cart: {},
-  loadingCart: false,
 }
 
 export default function reducer(state = initialState, action: AnyAction): CartState {
   switch(action.type) {
-    case MODIFY_CART_START: {
-      return {
-        ...state,
-        loadingCart: true
-      }
-    }
-
-    case MODIFY_CART_SUCCESS: {
-      const { productId, remove } = action.payload;
-      const newCart = { ...state.cart }
-
-      if (newCart[productId]) {
-        const newValue = remove ? newCart[productId] - 1 : newCart[productId] + 1 
-        newCart[productId] = newValue;
+    case ADD_TO_CART: {
+      const product = action.payload;
+      const newCart = { ...state.cart };
+      
+      if (newCart[product.id]) {
+        newCart[product.id].quantity += 1
       } else {
-        newCart[productId] = 1;
+        newCart[product.id] = {
+          image: product.image,
+          title: product.title,
+          price: product.price,
+          quantity: 1
+        }
       }
 
       return {
         ...state,
-        loadingCart: false,
         cart: newCart
       }
     }
 
-    case MODIFY_CART_FAIL: {
+    case REMOVE_FROM_CART: {
+      const product = action.payload;
+      const newCart = { ...state.cart };
+
+      if (newCart[product.id].quantity === 1) {
+        delete newCart[product.id]
+      } else {
+        newCart[product.id].quantity -= 1
+      }
+
       return {
         ...state,
-        loadingCart: false
+        cart: newCart
       }
     }
 
