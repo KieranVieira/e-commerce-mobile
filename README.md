@@ -1,9 +1,23 @@
+# Pre-Checklist
+
+This was built using Yarn version:
+```
+1.22.10
+```
+
+And Node version:
+```
+16.13.0
+```
+
+Its recommended to use the same versions, otherwise you could run into issues.
+
 # Startup
 
-1. Install NPM modules
+1. Install modules
 
 ```
-npm i
+yarn install
 ```
 
 2. Start the dev server
