@@ -1,5 +1,13 @@
 import { AnyAction } from 'redux';
-import { FETCH_PRODUCTS_START, FETCH_PRODUCTS_SUCCESS, FETCH_PRODUCTS_FAIL } from '../actions/products';
+
+import { 
+  FETCH_PRODUCTS_START, 
+  FETCH_PRODUCTS_SUCCESS, 
+  FETCH_PRODUCTS_FAIL,
+  FETCH_CATEGORIES_START,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_FAIL
+} from '../actions/products';
 
 export interface Product {
   category: string,
@@ -18,12 +26,14 @@ export interface ProductsState {
   products: Product[]
   categories: string[],
   isLoadingProducts: boolean,
+  isLoadingCategories: boolean,
 }
 
 const initialState: ProductsState = {
   products: [],
   categories: [],
   isLoadingProducts: false,
+  isLoadingCategories: false,
 }
 
 export default function reducer(state = initialState, action: AnyAction): ProductsState {
@@ -53,6 +63,33 @@ export default function reducer(state = initialState, action: AnyAction): Produc
         isLoadingProducts: false,
       }
     }
+
+    case FETCH_CATEGORIES_START: {
+      return {
+        ...state,
+        isLoadingCategories: true,
+      }
+    }
+
+    case FETCH_CATEGORIES_SUCCESS: {
+      const categories = action.payload;
+
+      return {
+        ...state,
+        isLoadingCategories: false,
+        categories
+      }
+    }
+
+    case FETCH_CATEGORIES_FAIL: {
+      const error = action.payload;
+
+      return {
+        ...state,
+        isLoadingCategories: false
+      }
+    }
+
 
     default: {
       return state

@@ -1,15 +1,25 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 
-const api = 'https://fakestoreapi.com/products'
+const api = 'https://fakestoreapi.com';
 
 export const FETCH_PRODUCTS_START = "FETCH_PRODUCTS_START";
 export const FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS";
 export const FETCH_PRODUCTS_FAIL = "FETCH_PRODUCTS_FAIL";
+
+/** 
+ * Dispatches async thunk actions to fetch products, and handle
+ * fetching state
+ */
 export const fetchProducts = (category?: string, filter?: string) => (dispatch: Dispatch) => {
+  let uri = `${api}/products`;
+
+  if (category) uri += `/category/${category}`;
+  if (filter) uri += `?sort=${filter}`;
+
   dispatch({ type: FETCH_PRODUCTS_START });
 
-  axios.get(api)
+  axios.get(uri)
     .then(res => {
       dispatch({
         type: FETCH_PRODUCTS_SUCCESS,
@@ -22,5 +32,30 @@ export const fetchProducts = (category?: string, filter?: string) => (dispatch: 
         payload: err
       })
     })
+}
 
+export const FETCH_CATEGORIES_START = "FETCH_CATEGORIES_START";
+export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
+export const FETCH_CATEGORIES_FAIL = "FETCH_CATEGORIES_FAIL";
+
+/** 
+ * Dispatches async thunk actions to fetch categories, and handle
+ * fetching state
+ */
+export const fetchCategories = () => (dispatch: Dispatch) => {
+  dispatch({ type: FETCH_CATEGORIES_START });
+
+  axios.get(`${api}/products/categories`)
+    .then(res => {
+      dispatch({
+        type: FETCH_CATEGORIES_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_CATEGORIES_FAIL,
+        payload: err
+      })
+    })
 }
