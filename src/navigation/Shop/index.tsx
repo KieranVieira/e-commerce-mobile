@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import { useTheme } from 'styled-components/native';
 
 import { fetchCategories, fetchProducts } from '../../redux/actions/products';
 import { Product as IProduct } from '../../redux/reducers/products';
@@ -31,6 +32,7 @@ type FilterType = 'asc'|'desc';
 const Shop = () => {
   const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const products = getProducts();
   const productsLoading = getProductsLoading();
   const cart = getCart();
@@ -55,11 +57,14 @@ const Shop = () => {
    * Handles showing action sheet with sorting options
    */
   const handlePressFilter = useCallback(() => {
+    const options = ['Sort Ascending', 'Sort Descending', 'Cancel'];
+    const cancelButtonIndex = 2;
+
     showActionSheetWithOptions({
-      options: ['Sort Ascending', 'Sort Descending', 'Cancel'],
-      cancelButtonIndex: 2,
+      options,
+      cancelButtonIndex,
     }, i => {
-      const isCancel = i === 2
+      const isCancel = i === cancelButtonIndex
       const newFilter = i === 0 ? 'asc' : 'desc';
       if (!isCancel && filter !== newFilter) {
         setFilter(newFilter);
@@ -86,15 +91,16 @@ const Shop = () => {
    * 
    * @param item - Item key to be rendered
    */
-  const renderCategory = useCallback((item: string) => {
-    const isSelected = category === item;
+  const renderCategory = useCallback(({ item }: { item: unknown, index: number }) => {
+    const currentCategory = item as string;
+    const isSelected = category === currentCategory;
 
     return (
       <CategoryButton
-        key={item}
+        key={currentCategory}
         isSelected={isSelected}
-        onPress={() => handlePressCategory(item)}
-        label={capitalize(item)}
+        onPress={() => handlePressCategory(currentCategory)}
+        label={capitalize(currentCategory)}
       />
     )
   }, [category, handlePressCategory]);
@@ -164,17 +170,28 @@ const Shop = () => {
           <FilterIcon/>
         </FilterButton>
       </FilterContainer>
-      <CategoryContainer>
-        <CategoryButton 
-          label="All" 
-          isSelected={!category}
-          onPress={() => handlePressCategory('')}
-        />
-        {categories.map(renderCategory)}
-      </CategoryContainer>
+      <CategoryContainer
+        data={categories}
+        renderItem={renderCategory}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        ListHeaderComponent={
+          <CategoryButton 
+            label="All" 
+            isSelected={category === ''}
+            onPress={() => handlePressCategory('')}
+          />
+        }
+        contentContainerStyle={{
+          paddingHorizontal: theme.spacing.md
+        }}
+      />
       <ProductsContainer>
         {productsLoading ? (
-          <Loading />
+          <Loading 
+            size="large" 
+            color={theme.colors.secondaryAccent}
+          />
         ) : (
           productsToRender.map(renderProduct)
         )}

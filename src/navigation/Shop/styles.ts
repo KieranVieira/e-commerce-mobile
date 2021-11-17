@@ -30,15 +30,7 @@ export const FilterButton = styled.TouchableOpacity`
 
 export const FilterIcon = styled(Filter)``;
 
-export const CategoryContainer = styled.ScrollView.attrs(({ theme }) => {
-  return {
-    horizontal: true,
-    showsHorizontalScrollIndicator: false,
-    contentContainerStyle: {
-      paddingHorizontal: theme.spacing.md
-    }
-  }
-})`
+export const CategoryContainer = styled.FlatList`
   flex-direction: row;
   margin: ${({theme}) => theme.spacing.sm}px 0;
 `;

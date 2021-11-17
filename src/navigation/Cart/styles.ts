@@ -22,6 +22,7 @@ export const TotalContainer = styled.View`
   border: 2px dashed ${({theme}) => theme.colors.textAccent};
   border-radius: ${({theme}) => theme.radius.lg}px;
   padding: ${({theme}) => theme.spacing.md}px;
+  margin-bottom: ${({theme}) => theme.spacing.md}px;
 `;
 
 export const TotalTop = styled.View`
