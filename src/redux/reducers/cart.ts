@@ -6,6 +6,7 @@ import {
 } from '../actions/cart';
 
 export interface CartItem {
+  id: number,
   image: string,
   title: string,
   price: number,
@@ -30,6 +31,7 @@ export default function reducer(state = initialState, action: AnyAction): CartSt
         newCart[product.id].quantity += 1
       } else {
         newCart[product.id] = {
+          id: product.id,
           image: product.image,
           title: product.title,
           price: product.price,

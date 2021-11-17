@@ -1,3 +1,4 @@
+import { CartItem } from "../reducers/cart";
 import { Product } from "../reducers/products";
 
 export const ADD_TO_CART = "ADD_TO_CART";
@@ -7,14 +8,14 @@ export const ADD_TO_CART = "ADD_TO_CART";
  * 
  * @param product - Product to add to cart
  */
-export const addToCart = (product: Product) => ({
+export const addToCart = (product: Product | CartItem) => ({
   type: ADD_TO_CART,
   payload: product
 })
 
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART"
 
-export const removeFromCart = (product: Product) => ({
+export const removeFromCart = (product: Product | CartItem) => ({
   type: REMOVE_FROM_CART,
   payload: product
 })

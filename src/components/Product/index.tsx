@@ -26,14 +26,14 @@ interface Props {
   title: string,
   /** Price of the product */
   price: number,
-  /** Rating of the product */
-  rating: number,
-  /** Description of the product (Could be truncated depending on length) */
-  description: string,
   /** Count of this product currently in the cart */
   cartCount: number,
   /** Fired when buy is pressed, or +/- component is modified, -1 if remove, +1 if add */
   onCartModify: (quantity: 1 | -1) => void;
+  /** Rating of the product */
+  rating?: number,
+  /** Description of the product (Could be truncated depending on length) */
+  description?: string,
 }
 
 /** 
@@ -52,16 +52,18 @@ const Product: React.FC<Props> = ({
 }) => {
   return (
     <MainContainer style={style}>
-      <Rating>
-        <StarIcon/>
-        <RatingText>
-          {rating}
-        </RatingText>
-      </Rating>
+      {rating && (
+        <Rating>
+          <StarIcon/>
+          <RatingText>
+            {rating}
+          </RatingText>
+        </Rating>
+      )}
       <Image source={{ uri: imageSrc }} resizeMode='contain' />
       <RightContent>
         <Title numberOfLines={2}>{title}</Title>
-        <Description numberOfLines={3}>{description}</Description>
+        {description && <Description numberOfLines={3}>{description}</Description>}
         <BottomRow>
           <Price>
             ${price.toFixed(2)}
