@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewStyle } from 'react-native';
+import { Text, ViewStyle } from 'react-native';
 
 import { 
   MainContainer, 
@@ -12,6 +12,8 @@ import {
   Description, 
   BottomRow, 
   Price,
+  ModifyContainer,
+  Loading,
   BuyButton
 } from './styles';
 
@@ -28,13 +30,29 @@ interface Props {
   rating: number,
   /** Description of the product (Could be truncated depending on length) */
   description: string,
+  /** Count of this product currently in the cart */
+  cartCount: number,
+  /** True if cart is currently loading */
+  cartLoading: boolean,
+  /** Fired when buy is pressed, or +/- component is modified, remove is true if minus was pressed */
+  onCartModify: (remove?: boolean) => void;
 }
 
 /** 
  * Renders the product details associated, and allows the user to add and remove
  * products from their cart using onAdd/onRemove/isInCart props
  */
-const Product: React.FC<Props> = ({ style, imageSrc, title, description, rating, price }) => {
+const Product: React.FC<Props> = ({ 
+  style, 
+  imageSrc, 
+  title,
+  description, 
+  rating, 
+  price,
+  cartCount,
+  cartLoading,
+  onCartModify
+}) => {
   return (
     <MainContainer style={style}>
       <Rating>
@@ -51,10 +69,18 @@ const Product: React.FC<Props> = ({ style, imageSrc, title, description, rating,
           <Price>
             ${price.toFixed(2)}
           </Price>
-          <BuyButton
-            onPress={() => {}}
-            label="Buy"
-          />
+          <ModifyContainer>
+            {cartLoading ? (
+              <Loading testID='product-loading-indicator'/>
+            ) : cartCount ? (
+              <Text>{cartCount}</Text>
+            ) : (
+              <BuyButton
+                onPress={onCartModify}
+                label="Buy"
+              />
+            )}
+          </ModifyContainer>
         </BottomRow>
       </RightContent>
     </MainContainer>

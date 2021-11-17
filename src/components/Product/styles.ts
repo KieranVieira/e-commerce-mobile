@@ -62,7 +62,6 @@ export const Description = styled.Text`
   font-size: ${({theme}) => theme.text.xsm}px;
   line-height: ${({theme}) => theme.text.md}px;
   color: ${({theme}) => theme.colors.textAccent};
-
 `;
 
 export const BottomRow = styled.View`
@@ -70,6 +69,7 @@ export const BottomRow = styled.View`
   justify-content: space-between;
   align-items: center;
   margin-top: ${({theme}) => theme.spacing.sm}px;
+  min-height: 45px;
 `;
 
 export const Price = styled.Text`
@@ -77,6 +77,15 @@ export const Price = styled.Text`
   font-weight: 600;
   color: ${({theme}) => theme.colors.textMain};
 `;
+
+export const ModifyContainer = styled.View`
+  min-height: 20px;
+  min-width: 80px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Loading = styled.ActivityIndicator``;
 
 export const BuyButton = styled(Button)`
 
