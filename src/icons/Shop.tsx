@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path, SvgProps } from "react-native-svg";
 
-const Home = (props: SvgProps) => {
+const Shop = (props: SvgProps) => {
   return (
     <Svg
       width={24}
@@ -13,10 +13,9 @@ const Home = (props: SvgProps) => {
       strokeLinejoin="round"
       {...props}
     >
-      <Path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-      <Path d="M9 22V12h6v10" />
+      <Path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01" />
     </Svg>
   )
 }
 
-export default Home;
+export default Shop;

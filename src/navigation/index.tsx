@@ -6,8 +6,8 @@ import styled, { useTheme } from 'styled-components/native';
 
 import Shop from './Shop';
 import Cart from './Cart';
+import ShopIcon from '../icons/Shop';
 import CartIcon from '../icons/Cart';
-import HomeIcon from '../icons/Home';
 
 type Route = RouteProp<ParamListBase, string>;
 export enum NavigationScreens {
@@ -31,14 +31,18 @@ const Navigation = () => {
    * @param isFocused - True if the current item is focussed
    */
   const getTabBarIcon = useCallback((route: Route, isFocused: boolean) => {
+    const iconProps = {
+      stroke: theme.colors.textMain,
+      fill: isFocused ? theme.colors.textMain : undefined
+    }
 
     switch (route.name) {
       case NavigationScreens.SHOP: {
-        return <HomeIcon stroke={theme.colors.textMain}/>
+        return <ShopIcon {...iconProps} />
       }
 
       case NavigationScreens.CART: {
-        return <CartIcon stroke={theme.colors.textMain}/>
+        return <CartIcon {...iconProps} />
       }
     }
 

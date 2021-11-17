@@ -5,5 +5,5 @@ export default {
   textMain: '#403B58',
   textAccent: '#666375',
   textSecondaryAccent: '#FFFFFF',
-  yellow: '#fbff85'
+  orange: '#F9AE56'
 }
