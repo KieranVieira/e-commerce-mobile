@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Platform } from 'react-native';
 import { RouteProp, ParamListBase } from '@react-navigation/core';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -68,7 +69,12 @@ const Navigation = () => {
           headerShown: false,
           tabBarIcon: ({ focused }) => getTabBarIcon(route, focused),
           tabBarLabel: ({ focused }) => getTabBarLabel(route, focused),
-          tabBarItemStyle: { height: 50, marginVertical: theme.spacing.sm },
+          tabBarStyle: {
+            height: Platform.select({ ios: 100, android: 80 })
+          },
+          tabBarItemStyle: {
+            padding: Platform.select({ ios: 10, android: 15 }),
+          }
         })}
       >
         <Tab.Screen 
