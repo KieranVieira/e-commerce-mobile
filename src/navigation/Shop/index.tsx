@@ -5,8 +5,8 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import { fetchCategories, fetchProducts } from '../../redux/actions/products';
 import { Product as IProduct } from '../../redux/reducers/products';
 import { getCategories, getProducts, getProductsLoading } from '../../redux/selectors/products';
-import { modifyCart } from '../../redux/actions/cart';
-import { getCart, getCartLoading } from '../../redux/selectors/cart';
+import { addToCart, removeFromCart } from '../../redux/actions/cart';
+import { getCart } from '../../redux/selectors/cart';
 import { capitalize } from '../../utils/general';
 import { 
   Screen,
@@ -34,7 +34,6 @@ const Shop = () => {
   const products = getProducts();
   const productsLoading = getProductsLoading();
   const cart = getCart();
-  const cartLoading = getCartLoading();
   const categories = getCategories();
   const [searchValue, setSearchValue] = useState('');
   const [productsToRender, setProductsToRender] = useState<IProduct[]>([]);
@@ -44,8 +43,12 @@ const Shop = () => {
   /**
    * Handles cart modification from product, has ability to remove
    */
-  const handleCartModification = useCallback((productId: number, remove?: boolean) => {
-    dispatch(modifyCart(productId, remove));
+  const handleCartModification = useCallback((product: IProduct, quantity?: -1 | 1) => {
+    if (quantity === 1) {
+      dispatch(addToCart(product));
+    } else {
+      dispatch(removeFromCart(product));
+    }
   }, []);
 
   /**
@@ -102,7 +105,7 @@ const Shop = () => {
    * @param product - Product to be rendered
    */
   const renderProduct = useCallback((item: IProduct) => {
-    const cartCount = cart[item.id];
+    const cartCount = cart[item.id]?.quantity ?? 0;
 
     return (
       <Product
@@ -113,11 +116,10 @@ const Shop = () => {
         rating={item.rating.rate}
         imageSrc={item.image}
         cartCount={cartCount}
-        cartLoading={cartLoading}
-        onCartModify={(remove) => handleCartModification(item.id, remove)}
+        onCartModify={(quantity) => handleCartModification(item, quantity)}
       />
     )
-  }, [handleCartModification, cart, cartLoading]);
+  }, [handleCartModification, cart]);
 
   /** 
    * Handles fetching products with most recent category and filter
