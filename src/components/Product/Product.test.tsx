@@ -12,10 +12,10 @@ describe('Testing Component: <Product/>', () => {
     rating: 3.5,
     price: 24.22,
     cartCount: 0,
-    cartLoading: false,
     onCartModify: jest.fn()
   };
-  const loadingIndicatorId = 'product-loading-indicator';
+  const minusButtonTestId = 'minus-button';
+  const plusButtonTestId = 'plus-button';
 
   it('Should render with all props visible', () => {
     const { getByText } = render(<Product {...defaultProps} />);
@@ -33,23 +33,28 @@ describe('Testing Component: <Product/>', () => {
     expect(getByText(String(cartCount))).toBeDefined();
   })
 
-  it('Should show Loading if cartLoading passed as true', () => {
-    const { getByTestId } = render(<Product {...defaultProps} cartLoading />);
-
-    expect(getByTestId(loadingIndicatorId)).toBeDefined();
-  })
-
-  it('Should call onCartModify when pressing buy button', () => {
+  it('Should call onCartModify with 1 when pressing buy button', () => {
     const { getByText } = render(<Product {...defaultProps} />);
 
     fireEvent.press(getByText('Buy'));
 
-    expect(defaultProps.onCartModify).toBeCalledWith();
+    expect(defaultProps.onCartModify).toBeCalledWith(1);
   })
 
 
-  it.todo('Should call onCartModify when pressing + icon when cartCount > 0');
+  it('Should call onCartModify when pressing + icon when cartCount > 0 with -1', () => {
+    const { getByTestId } = render(<Product {...defaultProps} cartCount={1}/>);
 
-  it.todo('Should call onCartModify when pressing + icon when cartCount > 0');
+    fireEvent.press(getByTestId(minusButtonTestId));
 
+    expect(defaultProps.onCartModify).toBeCalledWith(-1)
+  });
+
+  it('Should call onCartModify when pressing + icon when cartCount > 0 with 1', () => {
+    const { getByTestId } = render(<Product {...defaultProps} cartCount={1}/>);
+
+    fireEvent.press(getByTestId(plusButtonTestId));
+
+    expect(defaultProps.onCartModify).toBeCalledWith(1);
+  });
 })

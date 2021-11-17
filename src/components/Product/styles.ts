@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 import Star from '../../icons/Star';
 import Button from '../Button';
+import Counter from '../Counter';
 
 export const MainContainer = styled.View`
   flex-direction: row;
@@ -85,7 +86,10 @@ export const ModifyContainer = styled.View`
   justify-content: center;
 `;
 
-export const Loading = styled.ActivityIndicator``;
+export const CountButtons = styled(Counter)`
+
+`;
+
 
 export const BuyButton = styled(Button)`
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, ViewStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 
 import { 
   MainContainer, 
@@ -13,7 +13,7 @@ import {
   BottomRow, 
   Price,
   ModifyContainer,
-  Loading,
+  CountButtons,
   BuyButton
 } from './styles';
 
@@ -32,10 +32,8 @@ interface Props {
   description: string,
   /** Count of this product currently in the cart */
   cartCount: number,
-  /** True if cart is currently loading */
-  cartLoading: boolean,
-  /** Fired when buy is pressed, or +/- component is modified, remove is true if minus was pressed */
-  onCartModify: (remove?: boolean) => void;
+  /** Fired when buy is pressed, or +/- component is modified, -1 if remove, +1 if add */
+  onCartModify: (quantity: 1 | -1) => void;
 }
 
 /** 
@@ -50,7 +48,6 @@ const Product: React.FC<Props> = ({
   rating, 
   price,
   cartCount,
-  cartLoading,
   onCartModify
 }) => {
   return (
@@ -70,13 +67,14 @@ const Product: React.FC<Props> = ({
             ${price.toFixed(2)}
           </Price>
           <ModifyContainer>
-            {cartLoading ? (
-              <Loading testID='product-loading-indicator'/>
-            ) : cartCount ? (
-              <Text>{cartCount}</Text>
+            {cartCount ? (
+              <CountButtons
+                count={cartCount}
+                onCountChange={onCartModify}
+              />
             ) : (
               <BuyButton
-                onPress={onCartModify}
+                onPress={() => onCartModify(1)}
                 label="Buy"
               />
             )}
