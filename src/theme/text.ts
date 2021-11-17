@@ -1,5 +1,5 @@
 export default {
-  xsm: 16,
+  xsm: 14,
   sm: 18,
   md: 22,
   xmd: 26,
