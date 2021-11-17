@@ -7,15 +7,12 @@ import { Product as IProduct } from '../../redux/reducers/products';
 import { getCategories, getProducts, getProductsLoading } from '../../redux/selectors/products';
 import { capitalize } from '../../utils/general';
 import { 
-  MainContainer, 
-  Header, 
-  SubHeader, 
+  Screen,
   FilterContainer, 
   FilterButton,
   FilterIcon,
   SearchBar, 
   SearchIcon,
-  ScrollContainer,
   ProductsContainer,
   Product,
   CategoryContainer,
@@ -133,38 +130,34 @@ const Shop = () => {
   }, [])
 
   return (
-    <ScrollContainer keyboardDismissMode='on-drag'>
-      <MainContainer>
-        <Header>Amazing Products</Header>
-        <SubHeader>Take a Look!</SubHeader>
-        <FilterContainer>
-          <SearchBar 
-            icon={<SearchIcon />}
-            placeholder="Search" 
-            value={searchValue} 
-            onChange={setSearchValue} 
-          />
-          <FilterButton onPress={handlePressFilter}>
-            <FilterIcon/>
-          </FilterButton>
-        </FilterContainer>
-        <CategoryContainer>
-          <CategoryButton 
-            label="All" 
-            isSelected={!category}
-            onPress={() => handlePressCategory('')}
-          />
-          {categories.map(renderCategory)}
-        </CategoryContainer>
-        <ProductsContainer>
-          {productsLoading ? (
-            <Loading />
-          ) : (
-            productsToRender.map(renderProduct)
-          )}
-        </ProductsContainer>
-      </MainContainer>
-    </ScrollContainer>
+    <Screen headerText='Amazing Products' subHeaderText='Take a Look!'>
+      <FilterContainer>
+        <SearchBar 
+          icon={<SearchIcon />}
+          placeholder="Search" 
+          value={searchValue} 
+          onChange={setSearchValue} 
+        />
+        <FilterButton onPress={handlePressFilter}>
+          <FilterIcon/>
+        </FilterButton>
+      </FilterContainer>
+      <CategoryContainer>
+        <CategoryButton 
+          label="All" 
+          isSelected={!category}
+          onPress={() => handlePressCategory('')}
+        />
+        {categories.map(renderCategory)}
+      </CategoryContainer>
+      <ProductsContainer>
+        {productsLoading ? (
+          <Loading />
+        ) : (
+          productsToRender.map(renderProduct)
+        )}
+      </ProductsContainer>
+    </Screen>
   )
 }
 
