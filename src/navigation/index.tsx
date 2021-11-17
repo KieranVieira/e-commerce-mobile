@@ -15,7 +15,6 @@ export enum NavigationScreens {
   CART = 'Cart'
 }
 
-const TAB_BAR_HEIGHT = 100;
 const Tab = createBottomTabNavigator();
 
 /**

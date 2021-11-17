@@ -43,9 +43,11 @@ const Shop = () => {
       options: ['Sort Ascending', 'Sort Descending', 'Cancel'],
       cancelButtonIndex: 2,
     }, i => {
+      const isCancel = i === 2
       const newFilter = i === 0 ? 'asc' : 'desc';
-      if (filter !== newFilter) {
-        setFilter(!i ? 'asc' : 'desc')
+      if (!isCancel && filter !== newFilter) {
+        setFilter(!i ? 'asc' : 'desc');
+        setProductsToRender([]);
       }
     })
   }, [showActionSheetWithOptions, filter]);
