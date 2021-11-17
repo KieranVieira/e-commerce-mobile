@@ -12,6 +12,10 @@ interface CounterProps {
   onCountChange: (quantity: -1 | 1) => void;
 }
 
+/**
+ * Counter that handles displaying passed count, as well as modifying the count
+ * with =/- buttons on either side of the rendered count
+ */
 const Counter: React.FC<CounterProps> = ({ style, count, onCountChange }) => {
   return (
     <MainContainer style={style}>
