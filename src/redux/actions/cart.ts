@@ -16,14 +16,14 @@ export const MODIFY_CART_FAIL = "MODIFY_CART_FAIL";
  */
 export const modifyCart = (productId: number, remove?: boolean) => (dispatch: Dispatch) => {
   const payload = {
-    userId: 5,
-    date: new Date().toDateString(),
+    userId: "5",
+    date: new Date().toLocaleDateString(),
     products: [{ productId, quantity: remove ? 0 : 1 }]
   }
 
-  dispatch({ type: MODIFY_CART_START, payload: productId });
+  dispatch({ type: MODIFY_CART_START });
 
-  axios.post(api, payload)
+  axios.post(`${api}/carts`, payload)
     .then(res => {
       dispatch({ 
         type: MODIFY_CART_SUCCESS,

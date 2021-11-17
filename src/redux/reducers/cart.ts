@@ -8,12 +8,12 @@ import {
 
 export interface CartState {
   cart: Record<string, number>,
-  loadingCartProductId: number | undefined,
+  loadingCart: boolean,
 }
 
 const initialState: CartState = {
   cart: {},
-  loadingCartProductId: undefined,
+  loadingCart: false,
 }
 
 export default function reducer(state = initialState, action: AnyAction): CartState {
@@ -21,7 +21,7 @@ export default function reducer(state = initialState, action: AnyAction): CartSt
     case MODIFY_CART_START: {
       return {
         ...state,
-        loadingCartProductId: action.payload
+        loadingCart: true
       }
     }
 
@@ -38,7 +38,7 @@ export default function reducer(state = initialState, action: AnyAction): CartSt
 
       return {
         ...state,
-        loadingCartProductId: undefined,
+        loadingCart: false,
         cart: newCart
       }
     }
@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action: AnyAction): CartSt
     case MODIFY_CART_FAIL: {
       return {
         ...state,
-        loadingCartProductId: undefined
+        loadingCart: false
       }
     }
 
