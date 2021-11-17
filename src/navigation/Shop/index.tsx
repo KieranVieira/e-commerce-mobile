@@ -5,6 +5,8 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import { fetchCategories, fetchProducts } from '../../redux/actions/products';
 import { Product as IProduct } from '../../redux/reducers/products';
 import { getCategories, getProducts, getProductsLoading } from '../../redux/selectors/products';
+import { modifyCart } from '../../redux/actions/cart';
+import { getCart, getCartLoading } from '../../redux/selectors/cart';
 import { capitalize } from '../../utils/general';
 import { 
   Screen,
@@ -20,20 +22,31 @@ import {
   Loading
 } from './styles';
 
+type FilterType = 'asc'|'desc';
+
 /**
  * Shop screen that renders search, filters, categories, and allows the user
  * to add products to their cart from the rendered product list
  */
 const Shop = () => {
+  const { showActionSheetWithOptions } = useActionSheet();
   const dispatch = useDispatch();
   const products = getProducts();
-  const { showActionSheetWithOptions } = useActionSheet();
   const productsLoading = getProductsLoading();
+  const cart = getCart();
+  const cartLoading = getCartLoading();
   const categories = getCategories();
   const [searchValue, setSearchValue] = useState('');
   const [productsToRender, setProductsToRender] = useState<IProduct[]>([]);
   const [category, setCategory] = useState('');
-  const [filter, setFilter] = useState('asc');
+  const [filter, setFilter] = useState<FilterType>('asc');
+
+  /**
+   * Handles cart modification from product, has ability to remove
+   */
+  const handleCartModification = useCallback((productId: number, remove?: boolean) => {
+    dispatch(modifyCart(productId, remove));
+  }, []);
 
   /**
    * Handles showing action sheet with sorting options
@@ -46,7 +59,7 @@ const Shop = () => {
       const isCancel = i === 2
       const newFilter = i === 0 ? 'asc' : 'desc';
       if (!isCancel && filter !== newFilter) {
-        setFilter(!i ? 'asc' : 'desc');
+        setFilter(newFilter);
         setProductsToRender([]);
       }
     })
@@ -89,6 +102,8 @@ const Shop = () => {
    * @param product - Product to be rendered
    */
   const renderProduct = useCallback((item: IProduct) => {
+    const cartCount = cart[item.id];
+
     return (
       <Product
         key={item.id}
@@ -97,9 +112,12 @@ const Shop = () => {
         price={item.price}
         rating={item.rating.rate}
         imageSrc={item.image}
+        cartCount={cartCount}
+        cartLoading={cartLoading}
+        onCartModify={(remove) => handleCartModification(item.id, remove)}
       />
     )
-  }, []);
+  }, [handleCartModification, cart, cartLoading]);
 
   /** 
    * Handles fetching products with most recent category and filter
