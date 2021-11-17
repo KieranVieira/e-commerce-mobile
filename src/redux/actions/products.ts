@@ -10,8 +10,11 @@ export const FETCH_PRODUCTS_FAIL = "FETCH_PRODUCTS_FAIL";
 /** 
  * Dispatches async thunk actions to fetch products, and handle
  * fetching state
+ * 
+ * @param category - Category to fetch from
+ * @param filter - Accepting only 'asc' or 'desc', passed to the store api to filter results
  */
-export const fetchProducts = (category?: string, filter?: string) => (dispatch: Dispatch) => {
+export const fetchProducts = (category?: string, filter?: 'asc' | 'desc') => (dispatch: Dispatch) => {
   let uri = `${api}/products`;
 
   if (category) uri += `/category/${category}`;
