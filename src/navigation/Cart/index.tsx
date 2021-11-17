@@ -24,8 +24,11 @@ const Cart = () => {
 
   /**
    * Handles cart modification from product, has ability to remove
+   * 
+   * @param product - Product to be modified
+   * @param quantity - Number that determines whether to decrement or increment
    */
-   const handleCartModification = useCallback((product: CartItem, quantity?: -1 | 1) => {
+   const handleCartModification = useCallback((product: CartItem, quantity: -1 | 1) => {
     if (quantity === 1) {
       dispatch(addToCart(product));
     } else {
@@ -35,6 +38,8 @@ const Cart = () => {
 
   /**
    * Handles rendering product to be rendered in the cart product list
+   * 
+   * @param product - Product to be rendered
    */
   const renderProduct = useCallback((product: CartItem) => {
     return (

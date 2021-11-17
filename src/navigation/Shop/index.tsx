@@ -44,8 +44,11 @@ const Shop = () => {
 
   /**
    * Handles cart modification from product, has ability to remove
+   * 
+   * @param product - Product to be modified
+   * @param quantity - Quantity determining if it should decrement or increment
    */
-  const handleCartModification = useCallback((product: IProduct, quantity?: -1 | 1) => {
+  const handleCartModification = useCallback((product: IProduct, quantity: -1 | 1) => {
     if (quantity === 1) {
       dispatch(addToCart(product));
     } else {
@@ -89,7 +92,7 @@ const Shop = () => {
   /**
    * Handles rendering category selection
    * 
-   * @param item - Item key to be rendered
+   * @param item - Item object containing item as string, and index
    */
   const renderCategory = useCallback(({ item }: { item: unknown, index: number }) => {
     const currentCategory = item as string;
@@ -178,7 +181,7 @@ const Shop = () => {
         ListHeaderComponent={
           <CategoryButton 
             label="All" 
-            isSelected={category === ''}
+            isSelected={!category}
             onPress={() => handlePressCategory('')}
           />
         }
