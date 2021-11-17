@@ -12,19 +12,21 @@ interface Props {
   disabled?: boolean;
   /** Label of the button */
   label?: string,
+  /** Override for text color */
+  textColor?: string,
 }
 
 /**
  * Custom button component to be used anywhere where buttons are needed
  */
-const Button: React.FC<Props> = ({ style, onPress, disabled, label }) => {
+const Button: React.FC<Props> = ({ style, onPress, disabled, label, textColor }) => {
   return (
     <ButtonContainer 
       style={style} 
       onPress={onPress} 
       disabled={disabled}
     >
-      <Label>{label}</Label>
+      <Label textColor={textColor} >{label}</Label>
     </ButtonContainer>
   )
 }

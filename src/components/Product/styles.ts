@@ -28,8 +28,8 @@ export const Rating = styled.View`
 
 export const StarIcon = styled(Star).attrs(({ theme }) => {
   return {
-    stroke: theme.colors.yellow,
-    fill: theme.colors.yellow
+    stroke: theme.colors.orange,
+    fill: theme.colors.orange
   }
 })`
   margin-right: ${({theme}) => theme.spacing.xsm / 2}px;
@@ -38,7 +38,7 @@ export const StarIcon = styled(Star).attrs(({ theme }) => {
 export const RatingText = styled.Text`
   font-size: ${({theme}) => theme.text.sm}px;
   font-weight: 700;
-  color: ${({theme}) => theme.colors.yellow};
+  color: ${({theme}) => theme.colors.accent};
 `;
 
 export const Image = styled.Image`

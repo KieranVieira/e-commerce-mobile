@@ -6,8 +6,11 @@ export const ButtonContainer = styled.TouchableOpacity`
   border-radius: ${({theme}) => theme.radius.md}px;
 `;
 
-export const Label = styled.Text`
+interface LabelProps {
+  textColor?: string
+}
+export const Label = styled.Text<LabelProps>`
   font-size: ${({theme}) => theme.text.xsm}px;
-  font-weight: 600;
-  color: ${({theme}) => theme.colors.textSecondaryAccent};
+  font-weight: 500;
+  color: ${({theme, textColor}) => textColor ?? theme.colors.textSecondaryAccent};
 `;
